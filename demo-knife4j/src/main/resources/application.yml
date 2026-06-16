@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: demo-knife4j
+
+server:
+  port: 8080
+
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+#    Swagger UI 界面的访问路径，启动后可通过 http://localhost:8080/swagger-ui.html 访问交互式 API 文档
+    path: /swagger-ui.html
+#    标签排序方式，设置为 alpha 表示按字母顺序排序 API 标签
+    tags-sorter: alpha
+#    接口操作排序方式，设置为 alpha 表示同一标签下的接口按字母顺序排序
+    operations-sorter: alpha
+  api-docs:
+#    OpenAPI 规范文档的 JSON 数据路径，返回标准的 OpenAPI 3.0 格式文档，可通过 http://localhost:8080/v3/api-docs 访问
+    path: /v3/api-docs
+  group-configs:
+#    分组名称，此处定义为默认分组
+    - group: 'demo-knife4j'
+#    匹配路径规则，/** 表示匹配所有 URL 路径
+      paths-to-match: '/**'
+#    扫描的 Controller 包路径，自动发现该包下的所有控制器并生成 API 文档
+      packages-to-scan: io.github.cunyu1943.demoknife4j.controller
+
+# knife4j 配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
