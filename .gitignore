@@ -24,10 +24,10 @@ hs_err_pid*
 replay_pid*
 
 *.idea/
-*.target/
-*.DS_Store
+*/target/
+*/.DS_Store
 *.gitignore
-*.mvn/
+*/.mvn/
 */HELP.md/
 */mvnw.cmd
 *.gitattributes

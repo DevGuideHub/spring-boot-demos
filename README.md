@@ -27,6 +27,7 @@
 
 1. [demo-hello](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-hello)：Spring Boot 版 Hello World~
 2. [demo-multi-environment](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-multi-environment)：Spring Boot 多环境配置文件
+3. [demo-knife4j](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-knife4j)：Spring Boot 利用 Knife4j 显示 API 文档的项目
 
 
 
