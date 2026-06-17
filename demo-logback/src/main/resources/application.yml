@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: demo-logback
+
+server:
+  port: 8080
+
+# Logback 日志配置
+logging:
+  level:
+    root: INFO
+    io.github.cunyu1943.demologback: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
