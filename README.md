@@ -21,7 +21,7 @@
 2. Maven 3.9 +
 3. IntelliJ IDEA 2025.3.3 +
 4. MySQL 8.0 +
-
+5. Spring Boot 4.0.0 +
 
 ## 三、项目结构
 
