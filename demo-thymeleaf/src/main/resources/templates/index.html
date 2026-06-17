@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thymeleaf Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="${message}">Hello World!</h1>
+        <p>这是一个 Thymeleaf 模板示例</p>
+        <p><a th:href="@{/user/村雨}">访问用户页面</a></p>
+        <p><a th:href="@{/list}">访问列表页面</a></p>
+        <p><a th:href="@{/conditional/true}">访问条件页面(true)</a></p>
+        <p><a th:href="@{/conditional/false}">访问条件页面(false)</a></p>
+    </div>
+</body>
+</html>

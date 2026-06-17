@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>条件判断页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .success {
+            color: #27ae60;
+            font-size: 24px;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>条件判断示例</h1>
+    <div th:if="${flag}" class="success">
+        <p>Flag 为 true</p>
+    </div>
+    <div th:unless="${flag}" class="error">
+        <p>Flag 为 false</p>
+    </div>
+    <p><a th:href="@{/}">返回首页</a></p>
+</body>
+</html>

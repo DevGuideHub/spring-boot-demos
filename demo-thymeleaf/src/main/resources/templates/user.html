@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <h1>欢迎, <span th:text="${name}">Guest</span>!</h1>
+    <p><a th:href="@{/}">返回首页</a></p>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>列表页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px;
+        }
+        h1 {
+            color: #27ae60;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>技术列表</h1>
+    <ul>
+        <li th:each="item : ${items}" th:text="${item}">Item</li>
+    </ul>
+    <p><a th:href="@{/}">返回首页</a></p>
+</body>
+</html>
