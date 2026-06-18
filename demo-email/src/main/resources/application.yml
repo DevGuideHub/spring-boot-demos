@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: demo-email
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: devguidehub@qq.com
+    password: cunyu1943
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+server:
+  port: 8080
