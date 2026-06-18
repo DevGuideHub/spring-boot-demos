@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo-freemarker
+  freemarker:
+    cache: false
+    template-loader-path: classpath:/templates/
+    suffix: .ftl
+    encoding: UTF-8
+
+server:
+  port: 8080
