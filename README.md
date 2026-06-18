@@ -33,7 +33,7 @@
 6.  [demo-thymeleaf](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-thymeleaf)：Spring Boot 利用 Thymeleaf 模板引擎的项目
 7.  [demo-freemarker](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-freemarker)：Spring Boot 利用 Freemarker 模板引擎的项目
 8.  [demo-jdbctemplate](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jdbctemplate)：Spring Boot 利用 JdbcTemplate 操作数据库的项目
-
+9.  [demo-jpa](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jpa)：Spring Boot 利用 JPA 操作数据库的项目
 
 
 ## 四、项目趋势
