@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: demo-jdbctemplate
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_jdbctemplate?useSSL=false&serverTimezone=UTC&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: root
+    password: cunyu1943
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080

@@ -29,6 +29,9 @@
 2. [demo-multi-environment](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-multi-environment)：Spring Boot 多环境配置文件
 3. [demo-knife4j](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-knife4j)：Spring Boot 利用 Knife4j 显示 API 文档的项目
 4. [demo-logback](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-logback)：Spring Boot 利用 Logback 配置日志的项目
+5. [demo-thymeleaf](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-thymeleaf)：Spring Boot 利用 Thymeleaf 模板引擎的项目
+6. [demo-freemarker](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-freemarker)：Spring Boot 利用 Freemarker 模板引擎的项目
+7. [demo-jdbctemplate](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jdbctemplate)：Spring Boot 利用 JdbcTemplate 操作数据库的项目
 
 
 
