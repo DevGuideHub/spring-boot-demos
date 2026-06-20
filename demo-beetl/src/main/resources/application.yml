@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: demo-beetl
+
+server:
+  port: 8081
+
+# Beetl 配置
+beetl:
+  suffix: .btl
+  templates-path: templates
+  # 启用 Spring MVC 视图解析器
+  enable-spring-mvc-view: true
+
+logging:
+  level:
+    root: INFO
+    io.github.cunyu1943.demosbeetl: DEBUG

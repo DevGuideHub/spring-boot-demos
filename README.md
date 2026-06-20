@@ -34,11 +34,13 @@
 7.  [demo-log4j2](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-log4j2)：Spring Boot 利用 Log4j2 配置日志的项目
 8.  [demo-slf4j-log4j2](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-slf4j-log4j2)：Spring Boot 利用 Slf4j + Log4j2 配置日志的项目
 9.  [demo-thymeleaf](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-thymeleaf)：Spring Boot 利用 Thymeleaf 模板引擎的项目
-10.  [demo-freemarker](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-freemarker)：Spring Boot 利用 Freemarker 模板引擎的项目  
-11.  [demo-jdbctemplate](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jdbctemplate)：Spring Boot 利用 JdbcTemplate 操作数据库的项目
-12.  [demo-jpa](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jpa)：Spring Boot 利用 JPA 操作数据库的项目
-13.  [demo-email](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-email)：Spring Boot 利用 JavaMail 发送邮件的项目
-14.  [demo-mybatis-plus](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-mybatis-plus)：Spring Boot 利用 Mybatis-Plus 操作数据库的项目
+10.  [demo-beetl](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-beetl)：Spring Boot 利用 Beetl 模板引擎的项目
+11.  [demo-freemarker](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-freemarker)：Spring Boot 利用 Freemarker 模板引擎的项目  
+12.  [demo-jdbctemplate](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jdbctemplate)：Spring Boot 利用 JdbcTemplate 操作数据库的项目
+13.  [demo-jpa](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jpa)：Spring Boot 利用 JPA 操作数据库的项目
+14.  [demo-email](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-email)：Spring Boot 利用 JavaMail 发送邮件的项目
+15.  [demo-mybatis-plus](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-mybatis-plus)：Spring Boot 利用 Mybatis-Plus 操作数据库的项目
+
 
 ## 四、项目趋势
 

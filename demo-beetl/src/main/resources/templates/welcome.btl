@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .message {
+            font-size: 24px;
+            color: #666;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spring Boot + Beetl 模板引擎</h1>
+    <p class="message">${message}</p>
+    <p>欢迎 ${name} 访问本页面！</p>
+</body>
+</html>
