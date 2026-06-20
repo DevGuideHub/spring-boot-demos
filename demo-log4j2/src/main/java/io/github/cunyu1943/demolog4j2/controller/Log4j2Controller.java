@@ -4,7 +4,10 @@ import io.github.cunyu1943.demolog4j2.entity.LogInfo;
 import io.github.cunyu1943.demolog4j2.service.Log4j2Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @description: Log4j2 测试控制器

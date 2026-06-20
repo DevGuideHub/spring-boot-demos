@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @description: 用户控制器测试（使用 JUnit 5 + Mockito）
