@@ -1,5 +1,6 @@
 package io.github.cunyu1943.demohello.controller;
 
+import io.github.cunyu1943.demohello.dto.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloWorldController {
+
+    /**
+     * 返回欢迎消息
+     *
+     * @return 统一响应结果
+     */
     @GetMapping("/")
-    public String index() {
-        return "Hello World！";
+    public Result<String> index() {
+        return Result.success("Hello World！");
     }
+
 }

@@ -1,5 +1,6 @@
 package io.github.cunyu1943.demohello.controller;
 
+import io.github.cunyu1943.demohello.dto.Result;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +29,12 @@ class HelloWorldControllerTest {
 
     @Test
     void testIndex_ShouldReturnHelloMessage() {
-        String result = helloWorldController.index();
-        assertEquals("Hello World！", result);
+        Result<String> result = helloWorldController.index();
+        assertNotNull(result);
+        assertEquals(200, result.getRespCode());
+        assertEquals("操作成功", result.getRespMsg());
+        assertEquals("Hello World！", result.getData());
+        assertNotNull(result.getTimestamp());
     }
 
     @Test
