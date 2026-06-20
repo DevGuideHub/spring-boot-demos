@@ -11,25 +11,10 @@
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
 
-        <RollingFile name="InfoFile" fileName="${LOG_DIR}/info.log"
-                     filePattern="${LOG_DIR}/%d{yyyyMMdd}/info-%d{yyyy-MM-dd}-%i.log">
+        <!-- 所有级别日志 -->
+        <RollingFile name="LogFile" fileName="${LOG_DIR}/app.log"
+                     filePattern="${LOG_DIR}/app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Filters>
-                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="30"/>
-        </RollingFile>
-
-        <RollingFile name="ErrorFile" fileName="${LOG_DIR}/error.log"
-                     filePattern="${LOG_DIR}/%d{yyyyMMdd}/error-%d{yyyy-MM-dd}-%i.log">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-            <Filters>
-                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-            </Filters>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="10MB"/>
@@ -41,13 +26,11 @@
     <Loggers>
         <Root level="INFO">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="InfoFile"/>
-            <AppenderRef ref="ErrorFile"/>
+            <AppenderRef ref="LogFile"/>
         </Root>
         <Logger name="io.github.cunyu1943.demolog4j2" level="DEBUG" additivity="false">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="InfoFile"/>
-            <AppenderRef ref="ErrorFile"/>
+            <AppenderRef ref="LogFile"/>
         </Logger>
     </Loggers>
 </Configuration>
