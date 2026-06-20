@@ -41,8 +41,7 @@
 
 ## 四、项目趋势
 
-[![](https://starchart.cc/cunyu1943/spring-boot-demos.svg?variant=adaptive)](https://starchart.cc/cunyu1943/spring-boot-demos)
-
+[![Star History Chart](https://api.star-history.com/chart?repos=cunyu1943/spring-boot-demos&type=date&logscale&legend=bottom-right)](https://www.star-history.com/?repos=cunyu1943%2Fspring-boot-demos&type=date&logscale=&legend=bottom-right)
 
 ## 五、其他
 
