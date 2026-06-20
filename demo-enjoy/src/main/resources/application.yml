@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo-enjoy
+
+logging:
+  level:
+    root: INFO
+    io.github.cunyu1943.demoenjoy: DEBUG

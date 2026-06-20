@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="30">
+    <!-- 获取服务名称 -->
+    <properties>
+        <Property name="LOG_PATH">logs</Property>
+        <Property name="APP_NAME">${spring:spring.application.name}</Property>
+        <Property name="LOG_FILE">${LOG_PATH}/${APP_NAME}/application</Property>
+    </properties>
+
+    <!-- 控制台 Appender -->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- 应用日志文件 -->
+        <RollingFile name="AppLog"
+                     fileName="${LOG_FILE}.log"
+                     filePattern="${LOG_FILE}-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- 错误日志文件 -->
+        <RollingFile name="ErrorLog"
+                     fileName="${LOG_FILE}-error.log"
+                     filePattern="${LOG_FILE}-error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- Logger 配置 -->
+    <Loggers>
+        <!-- 应用日志级别 -->
+        <Logger name="io.github.cunyu1943.demoenjoy" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppLog"/>
+            <AppenderRef ref="ErrorLog"/>
+        </Logger>
+
+        <!-- Spring 框架日志 -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppLog"/>
+        </Logger>
+
+        <!-- 根日志 -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="AppLog"/>
+            <AppenderRef ref="ErrorLog"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
