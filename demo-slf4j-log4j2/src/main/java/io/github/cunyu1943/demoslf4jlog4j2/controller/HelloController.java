@@ -1,7 +1,7 @@
 package io.github.cunyu1943.demoslf4jlog4j2.controller;
 
 import io.github.cunyu1943.demoslf4jlog4j2.dto.Result;
-import io.github.cunyu1943.demoslf4jlog4j2.service.service.HelloService;
+import io.github.cunyu1943.demoslf4jlog4j2.service.HelloService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

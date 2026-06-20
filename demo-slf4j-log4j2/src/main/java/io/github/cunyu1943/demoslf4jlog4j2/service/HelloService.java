@@ -1,6 +1,6 @@
-package io.github.cunyu1943.demoslf4jlogback.service.service;
+package io.github.cunyu1943.demoslf4jlog4j2.service;
 
-import io.github.cunyu1943.demoslf4jlogback.dto.Result;
+import io.github.cunyu1943.demoslf4jlog4j2.dto.Result;
 
 /**
  * @description: Hello服务接口

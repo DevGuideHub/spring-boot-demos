@@ -1,7 +1,7 @@
 package io.github.cunyu1943.demoslf4jlogback.service.impl;
 
 import io.github.cunyu1943.demoslf4jlogback.dto.Result;
-import io.github.cunyu1943.demoslf4jlogback.service.service.HelloService;
+import io.github.cunyu1943.demoslf4jlogback.service.HelloService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
