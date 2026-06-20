@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: demo-swagger
+
+server:
+  port: 8080
+
+# Springdoc OpenAPI 配置
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+
+logging:
+  level:
+    root: INFO
+    io.github.cunyu1943.demoswagger: DEBUG
