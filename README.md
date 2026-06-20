@@ -41,7 +41,8 @@
 14.  [demo-jpa](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-jpa)：Spring Boot 利用 JPA 操作数据库的项目 
 15.  [demo-email](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-email)：Spring Boot 利用 JavaMail 发送邮件的项目  
 16.  [demo-mybatis-plus](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-mybatis-plus)：Spring Boot 利用 Mybatis-Plus 操作数据库的项目
-17.  [demo-h2](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-h2)：Spring Boot2 操作数据库的项目
+17.  [demo-h2](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-h2)：Spring Boot 利用 H2 操作数据库的项目
+18.  [demo-fesod](https://github.com/cunyu1943/spring-boot-demos/tree/main/demo-fesod)：Spring Boot 利用 Fesod 操作 Excel 表格的项目
 
 
 
