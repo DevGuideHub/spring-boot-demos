@@ -1,10 +1,11 @@
 package io.github.cunyu1943.demomybatisplus.controller;
 
+import io.github.cunyu1943.demomybatisplus.config.ResourceNotFoundException;
+import io.github.cunyu1943.demomybatisplus.dto.ResultDTO;
 import io.github.cunyu1943.demomybatisplus.entity.User;
 import io.github.cunyu1943.demomybatisplus.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,11 @@ import java.util.List;
 /**
  * @description: 用户控制器
  * @author: cunyu1943
- * @date: 2026-06-19
+ * @date: 2026-06-22
  * @version: 1.0
  * 公众号：村雨遥
  * GitHub: https://github.com/cunyu1943
  */
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -39,164 +39,71 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * 查询所有用户
-     */
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<ResultDTO<List<User>>> getAllUsers() {
         logger.info("查询所有用户");
-        return ResponseEntity.ok(userService.findAll());
+        return ResponseEntity.ok(ResultDTO.success(userService.findAll(), "查询成功"));
     }
 
-    /**
-     * 根据ID查询用户
-     *
-     * @param id 用户ID
-     */
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ResultDTO<User>> getUserById(@PathVariable Long id) {
         logger.info("查询用户：id={}", id);
         return userService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(user -> ResponseEntity.ok(ResultDTO.success(user, "查询成功")))
+                .orElseThrow(() -> new ResourceNotFoundException("用户", id));
     }
 
-    /**
-     * 创建用户
-     *
-     * @param user 用户对象
-     */
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        try {
-            logger.info("创建用户：userName={}", user.getUserName());
-            User savedUser = userService.save(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-        } catch (IllegalArgumentException e) {
-            logger.warn("创建用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResultDTO<User>> createUser(@RequestBody User user) {
+        logger.info("创建用户：userName={}", user.getUserName());
+        User savedUser = userService.save(user);
+        return ResponseEntity.ok(ResultDTO.created(savedUser, "创建成功"));
     }
 
-    /**
-     * 更新用户
-     *
-     * @param id   用户ID
-     * @param user 更新内容
-     */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
-        try {
-            logger.info("更新用户：id={}", id);
-            User updatedUser = userService.update(id, user);
-            return ResponseEntity.ok(updatedUser);
-        } catch (IllegalArgumentException e) {
-            logger.warn("更新用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (RuntimeException e) {
-            logger.warn("更新用户失败：{}", e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ResultDTO<User>> updateUser(@PathVariable Long id, @RequestBody User user) {
+        logger.info("更新用户：id={}", id);
+        User updatedUser = userService.update(id, user);
+        return ResponseEntity.ok(ResultDTO.success(updatedUser, "更新成功"));
     }
 
-    /**
-     * 删除用户
-     *
-     * @param id 用户ID
-     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        try {
-            logger.info("删除用户：id={}", id);
-            userService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            logger.warn("删除用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<ResultDTO<Void>> deleteUser(@PathVariable Long id) {
+        logger.info("删除用户：id={}", id);
+        userService.deleteById(id);
+        return ResponseEntity.ok(ResultDTO.success(null, "删除成功"));
     }
 
-    /**
-     * 根据姓名查询用户
-     *
-     * @param name 姓名
-     */
     @GetMapping("/search/name")
-    public ResponseEntity<?> searchByName(@RequestParam String name) {
-        try {
-            logger.info("根据姓名查询用户：name={}", name);
-            return ResponseEntity.ok(userService.findByName(name));
-        } catch (IllegalArgumentException e) {
-            logger.warn("查询用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResultDTO<List<User>>> searchByName(@RequestParam String name) {
+        logger.info("根据姓名查询用户：name={}", name);
+        return ResponseEntity.ok(ResultDTO.success(userService.findByName(name), "查询成功"));
     }
 
-    /**
-     * 根据姓名模糊查询用户
-     *
-     * @param name 姓名关键词
-     */
     @GetMapping("/search/name-contain")
-    public ResponseEntity<?> searchByNameContaining(@RequestParam String name) {
-        try {
-            logger.info("模糊查询用户：name={}", name);
-            return ResponseEntity.ok(userService.findByNameContaining(name));
-        } catch (IllegalArgumentException e) {
-            logger.warn("查询用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResultDTO<List<User>>> searchByNameContaining(@RequestParam String name) {
+        logger.info("模糊查询用户：name={}", name);
+        return ResponseEntity.ok(ResultDTO.success(userService.findByNameContaining(name), "查询成功"));
     }
 
-    /**
-     * 根据邮箱查询用户
-     *
-     * @param email 邮箱
-     */
     @GetMapping("/search/email")
-    public ResponseEntity<User> searchByEmail(@RequestParam String email) {
-        try {
-            logger.info("根据邮箱查询用户：email={}", email);
-            return userService.findByEmail(email)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (IllegalArgumentException e) {
-            logger.warn("查询用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<ResultDTO<User>> searchByEmail(@RequestParam String email) {
+        logger.info("根据邮箱查询用户：email={}", email);
+        return userService.findByEmail(email)
+                .map(user -> ResponseEntity.ok(ResultDTO.success(user, "查询成功")))
+                .orElseThrow(() -> new ResourceNotFoundException("用户不存在：email=" + email));
     }
 
-    /**
-     * 根据年龄范围查询用户
-     *
-     * @param minAge 最小年龄
-     * @param maxAge 最大年龄
-     */
     @GetMapping("/search/age-range")
-    public ResponseEntity<?> searchByAgeRange(@RequestParam Integer minAge,
-                                              @RequestParam Integer maxAge) {
-        try {
-            logger.info("根据年龄范围查询用户：minAge={}, maxAge={}", minAge, maxAge);
-            return ResponseEntity.ok(userService.findByAgeBetween(minAge, maxAge));
-        } catch (IllegalArgumentException e) {
-            logger.warn("查询用户失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResultDTO<List<User>>> searchByAgeRange(@RequestParam Integer minAge,
+                                                                  @RequestParam Integer maxAge) {
+        logger.info("根据年龄范围查询用户：minAge={}, maxAge={}", minAge, maxAge);
+        return ResponseEntity.ok(ResultDTO.success(userService.findByAgeBetween(minAge, maxAge), "查询成功"));
     }
 
-    /**
-     * 检查邮箱是否存在
-     *
-     * @param email 邮箱
-     */
     @GetMapping("/check-email")
-    public ResponseEntity<?> checkEmailExists(@RequestParam String email) {
-        try {
-            logger.info("检查邮箱是否存在：email={}", email);
-            return ResponseEntity.ok(userService.existsByEmail(email));
-        } catch (IllegalArgumentException e) {
-            logger.warn("检查邮箱失败：{}", e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<ResultDTO<Boolean>> checkEmailExists(@RequestParam String email) {
+        logger.info("检查邮箱是否存在：email={}", email);
+        return ResponseEntity.ok(ResultDTO.success(userService.existsByEmail(email), "查询成功"));
     }
 }

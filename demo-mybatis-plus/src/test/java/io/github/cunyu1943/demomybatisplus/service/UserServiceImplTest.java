@@ -1,5 +1,6 @@
 package io.github.cunyu1943.demomybatisplus.service;
 
+import io.github.cunyu1943.demomybatisplus.config.ResourceNotFoundException;
 import io.github.cunyu1943.demomybatisplus.entity.User;
 import io.github.cunyu1943.demomybatisplus.mapper.UserMapper;
 import io.github.cunyu1943.demomybatisplus.service.impl.UserServiceImpl;
@@ -33,8 +34,8 @@ import static org.mockito.Mockito.when;
  * @author: cunyu1943
  * @date: 2026-06-19
  * @version: 1.0
- * 公众号：村雨遥
- * GitHub: https://github.com/cunyu1943
+ *           公众号：村雨遥
+ *           GitHub: https://github.com/cunyu1943
  */
 
 @ExtendWith(MockitoExtension.class)
@@ -60,13 +61,19 @@ class UserServiceImplTest {
 
     @Test
     void testSave_NewUser() {
+        User newUser = User.builder()
+                .userName("新用户")
+                .age(30)
+                .email("new@example.com")
+                .build();
+
         when(userMapper.insert(any(User.class))).thenAnswer(invocation -> {
             User user = invocation.getArgument(0);
             user.setId(1L);
             return 1;
         });
 
-        User savedUser = userService.save(testUser);
+        User savedUser = userService.save(newUser);
 
         assertNotNull(savedUser.getId());
         verify(userMapper, times(1)).insert(any(User.class));
@@ -146,6 +153,7 @@ class UserServiceImplTest {
 
     @Test
     void testDeleteById_Success() {
+        when(userMapper.selectById(1L)).thenReturn(testUser);
         when(userMapper.deleteById(1L)).thenReturn(1);
 
         assertDoesNotThrow(() -> userService.deleteById(1L));
@@ -160,6 +168,13 @@ class UserServiceImplTest {
     @Test
     void testDeleteById_NullId() {
         assertThrows(IllegalArgumentException.class, () -> userService.deleteById(null));
+    }
+
+    @Test
+    void testDeleteById_NotFound() {
+        when(userMapper.selectById(999L)).thenReturn(null);
+
+        assertThrows(ResourceNotFoundException.class, () -> userService.deleteById(999L));
     }
 
     @Test
@@ -274,7 +289,7 @@ class UserServiceImplTest {
         when(userMapper.selectById(1L)).thenReturn(testUser);
         when(userMapper.updateById(any(User.class))).thenReturn(1);
 
-        User updateUser = User.builder().name("新名称").build();
+        User updateUser = User.builder().userName("新名称").build();
         User result = userService.update(1L, updateUser);
 
         assertNotNull(result);

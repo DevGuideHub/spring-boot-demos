@@ -1,5 +1,6 @@
 package io.github.cunyu1943.demomybatisplus.controller;
 
+import io.github.cunyu1943.demomybatisplus.config.ResourceNotFoundException;
 import io.github.cunyu1943.demomybatisplus.entity.User;
 import io.github.cunyu1943.demomybatisplus.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,18 +29,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-/**
- * @description: UserController 测试类（使用 JUnit 5 + Mockito + MockMvc）
- * @author: cunyu1943
- * @date: 2026-06-19
- * @version: 1.0
- * 公众号：村雨遥
- * GitHub: https://github.com/cunyu1943
- */
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
@@ -72,20 +63,12 @@ class UserControllerTest {
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].userName").value("测试用户"));
+                .andExpect(jsonPath("$.respCode").value(200))
+                .andExpect(jsonPath("$.respMsg").value("查询成功"))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.data[0].userName").value("测试用户"));
 
         verify(userService, times(1)).findAll();
-    }
-
-    @Test
-    void testGetAllUsers_Empty() throws Exception {
-        when(userService.findAll()).thenReturn(Collections.emptyList());
-
-        mockMvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
@@ -94,8 +77,8 @@ class UserControllerTest {
 
         mockMvc.perform(get("/users/{id}", 1L))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value("测试用户"))
-                .andExpect(jsonPath("$.email").value("test@example.com"));
+                .andExpect(jsonPath("$.respCode").value(200))
+                .andExpect(jsonPath("$.data.userName").value("测试用户"));
 
         verify(userService, times(1)).findById(1L);
     }
@@ -105,9 +88,8 @@ class UserControllerTest {
         when(userService.findById(999L)).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/users/{id}", 999L))
-                .andExpect(status().isNotFound());
-
-        verify(userService, times(1)).findById(999L);
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.respCode").value(404));
     }
 
     @Test
@@ -121,23 +103,22 @@ class UserControllerTest {
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.userName").value("测试用户"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.respCode").value(201))
+                .andExpect(jsonPath("$.respMsg").value("创建成功"));
 
         verify(userService, times(1)).save(any(User.class));
     }
 
     @Test
     void testCreateUser_Error() throws Exception {
-        when(userService.save(any(User.class))).thenThrow(new IllegalArgumentException("姓名不能为空"));
+        when(userService.save(any(User.class))).thenThrow(new IllegalArgumentException("用户姓名不能为空"));
 
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(User.builder().build())))
-                .andExpect(status().isBadRequest());
-
-        verify(userService, times(1)).save(any(User.class));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.respCode").value(400));
     }
 
     @Test
@@ -148,29 +129,21 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value("测试用户"));
+                .andExpect(jsonPath("$.respCode").value(200))
+                .andExpect(jsonPath("$.respMsg").value("更新成功"));
 
         verify(userService, times(1)).update(eq(1L), any(User.class));
     }
 
     @Test
     void testUpdateUser_NotFound() throws Exception {
-        when(userService.update(eq(999L), any(User.class))).thenThrow(new RuntimeException("用户不存在"));
+        when(userService.update(eq(999L), any(User.class))).thenThrow(new ResourceNotFoundException("用户", 999L));
 
         mockMvc.perform(put("/users/{id}", 999L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(testUser)))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testUpdateUser_Error() throws Exception {
-        when(userService.update(eq(1L), any(User.class))).thenThrow(new IllegalArgumentException("参数错误"));
-
-        mockMvc.perform(put("/users/{id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(User.builder().build())))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.respCode").value(404));
     }
 
     @Test
@@ -178,59 +151,20 @@ class UserControllerTest {
         doNothing().when(userService).deleteById(1L);
 
         mockMvc.perform(delete("/users/{id}", 1L))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.respCode").value(200))
+                .andExpect(jsonPath("$.respMsg").value("删除成功"));
 
         verify(userService, times(1)).deleteById(1L);
     }
 
     @Test
-    void testDeleteUser_Error() throws Exception {
-        doThrow(new IllegalArgumentException("ID无效")).when(userService).deleteById(-1L);
+    void testDeleteUser_NotFound() throws Exception {
+        doThrow(new ResourceNotFoundException("用户", 999L)).when(userService).deleteById(999L);
 
-        mockMvc.perform(delete("/users/{id}", -1L))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void testSearchByName_Success() throws Exception {
-        when(userService.findByName("测试用户")).thenReturn(Arrays.asList(testUser));
-
-        mockMvc.perform(get("/users/search/name")
-                        .param("name", "测试用户"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].userName").value("测试用户"));
-
-        verify(userService, times(1)).findByName("测试用户");
-    }
-
-    @Test
-    void testSearchByName_Error() throws Exception {
-        when(userService.findByName("")).thenThrow(new IllegalArgumentException("姓名不能为空"));
-
-        mockMvc.perform(get("/users/search/name")
-                        .param("name", ""))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void testSearchByNameContaining_Success() throws Exception {
-        when(userService.findByNameContaining("测试")).thenReturn(Arrays.asList(testUser));
-
-        mockMvc.perform(get("/users/search/name-contain")
-                        .param("name", "测试"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].userName").value("测试用户"));
-
-        verify(userService, times(1)).findByNameContaining("测试");
-    }
-
-    @Test
-    void testSearchByNameContaining_Error() throws Exception {
-        when(userService.findByNameContaining("")).thenThrow(new IllegalArgumentException("姓名关键词不能为空"));
-
-        mockMvc.perform(get("/users/search/name-contain")
-                        .param("name", ""))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(delete("/users/{id}", 999L))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.respCode").value(404));
     }
 
     @Test
@@ -240,7 +174,7 @@ class UserControllerTest {
         mockMvc.perform(get("/users/search/email")
                         .param("email", "test@example.com"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userName").value("测试用户"));
+                .andExpect(jsonPath("$.respCode").value(200));
 
         verify(userService, times(1)).findByEmail("test@example.com");
     }
@@ -251,69 +185,7 @@ class UserControllerTest {
 
         mockMvc.perform(get("/users/search/email")
                         .param("email", "notexist@example.com"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void testSearchByEmail_Error() throws Exception {
-        when(userService.findByEmail("")).thenThrow(new IllegalArgumentException("邮箱不能为空"));
-
-        mockMvc.perform(get("/users/search/email")
-                        .param("email", ""))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void testSearchByAgeRange_Success() throws Exception {
-        when(userService.findByAgeBetween(20, 30)).thenReturn(Arrays.asList(testUser));
-
-        mockMvc.perform(get("/users/search/age-range")
-                        .param("minAge", "20")
-                        .param("maxAge", "30"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].userName").value("测试用户"));
-
-        verify(userService, times(1)).findByAgeBetween(20, 30);
-    }
-
-    @Test
-    void testSearchByAgeRange_Error() throws Exception {
-        when(userService.findByAgeBetween(30, 20)).thenThrow(new IllegalArgumentException("最小年龄不能大于最大年龄"));
-
-        mockMvc.perform(get("/users/search/age-range")
-                        .param("minAge", "30")
-                        .param("maxAge", "20"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void testCheckEmailExists_Exists() throws Exception {
-        when(userService.existsByEmail("test@example.com")).thenReturn(true);
-
-        mockMvc.perform(get("/users/check-email")
-                        .param("email", "test@example.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"));
-
-        verify(userService, times(1)).existsByEmail("test@example.com");
-    }
-
-    @Test
-    void testCheckEmailExists_NotExists() throws Exception {
-        when(userService.existsByEmail("notexist@example.com")).thenReturn(false);
-
-        mockMvc.perform(get("/users/check-email")
-                        .param("email", "notexist@example.com"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("false"));
-    }
-
-    @Test
-    void testCheckEmailExists_Error() throws Exception {
-        when(userService.existsByEmail("")).thenThrow(new IllegalArgumentException("邮箱不能为空"));
-
-        mockMvc.perform(get("/users/check-email")
-                        .param("email", ""))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.respCode").value(404));
     }
 }

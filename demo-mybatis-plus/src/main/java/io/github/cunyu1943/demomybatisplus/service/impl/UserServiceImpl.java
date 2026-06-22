@@ -1,5 +1,6 @@
 package io.github.cunyu1943.demomybatisplus.service.impl;
 
+import io.github.cunyu1943.demomybatisplus.config.ResourceNotFoundException;
 import io.github.cunyu1943.demomybatisplus.entity.User;
 import io.github.cunyu1943.demomybatisplus.mapper.UserMapper;
 import io.github.cunyu1943.demomybatisplus.service.UserService;
@@ -16,8 +17,8 @@ import java.util.Optional;
  * @author: cunyu1943
  * @date: 2026-06-19
  * @version: 1.0
- * 公众号：村雨遥
- * GitHub: https://github.com/cunyu1943
+ *           公众号：村雨遥
+ *           GitHub: https://github.com/cunyu1943
  */
 
 @Service
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
         if (user.getUserName() == null || user.getUserName().trim().isEmpty()) {
             throw new IllegalArgumentException("用户姓名不能为空");
         }
-        
+
         if (user.getId() == null) {
             logger.info("新增用户：userName={}", user.getUserName());
             userMapper.insert(user);
@@ -74,6 +75,10 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("用户ID必须大于0");
         }
         logger.info("删除用户：id={}", id);
+        User existingUser = userMapper.selectById(id);
+        if (existingUser == null) {
+            throw new ResourceNotFoundException("用户", id);
+        }
         userMapper.deleteById(id);
     }
 
@@ -141,7 +146,7 @@ public class UserServiceImpl implements UserService {
 
         User existingUser = userMapper.selectById(id);
         if (existingUser == null) {
-            throw new RuntimeException("用户不存在：id=" + id);
+            throw new ResourceNotFoundException("用户", id);
         }
 
         if (user.getUserName() != null && !user.getUserName().trim().isEmpty()) {
