@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.cunyu1943.demomybatis.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="io.github.cunyu1943.demomybatis.entity.User">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="age" property="age"/>
+        <result column="email" property="email"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="io.github.cunyu1943.demomybatis.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_user (user_name, age, email)
+        VALUES (#{userName}, #{age}, #{email})
+    </insert>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+    </select>
+
+    <update id="updateById" parameterType="io.github.cunyu1943.demomybatis.entity.User">
+        UPDATE tb_user
+        <set>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="email != null">email = #{email},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM tb_user
+        WHERE id = #{id}
+    </delete>
+
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+        WHERE user_name = #{name}
+    </select>
+
+    <select id="selectByNameContaining" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+        WHERE user_name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+        WHERE email = #{email}
+    </select>
+
+    <select id="selectByAgeBetween" resultMap="BaseResultMap">
+        SELECT id, user_name, age, email
+        FROM tb_user
+        WHERE age BETWEEN #{minAge} AND #{maxAge}
+    </select>
+
+    <select id="countByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE email = #{email}
+    </select>
+
+</mapper>

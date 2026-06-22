@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: demo-mybatis
+  datasource:
+    url: jdbc:mysql://localhost:3306/example_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: cunyu1943
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: io.github.cunyu1943.demomybatis.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  config: classpath:log4j2-spring.xml
+
+server:
+  port: 8080
