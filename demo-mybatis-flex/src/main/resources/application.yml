@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: demo-mybatis-flex
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/demo_mybatis_flex?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=utf8&useGeneratedKeys=true
+    username: root
+    password: cunyu1943
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080
+
+logging:
+  level:
+    io.github.cunyu1943.demomybatisflex: DEBUG
+    com.mybatisflex: DEBUG
+    org.apache.ibatis: DEBUG
+
+mybatis-flex:
+  configuration:
+    map-underscore-to-camel-case: true
+    use-column-label: true
+    default-executor-type: simple
+    use-generated-keys: true
+  global-config:
+    print-log: true
+    print-banner: true
